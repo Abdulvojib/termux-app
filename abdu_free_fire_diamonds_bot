@@ -1,0 +1,33 @@
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+
+# Сохтани команд ва хидматҳои лозима
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text("Салом! Ман бот барои донат барои алмазҳои Free Fire ҳастам.")
+
+def help(update: Update, context: CallbackContext):
+    update.message.reply_text("Ба ман барои кӯмак фармоиш додан мумкин аст.")
+
+def handle_message(update: Update, context: CallbackContext):
+    text = update.message.text.lower()
+    if "донат" in text:
+        update.message.reply_text("Барои додани донат, лутфан, дар ёд доштани амалҳои амонатгузорӣ, клик кунед.")
+        # Иҷозат додан ё пайванд кардани URL барои сайти донат
+        update.message.reply_text("Пайванд барои донат: [Пайванд](вақтиро ба таҳрир мувофиқ кунед)")
+
+def main():
+    # Токен бота, ки аз BotFather гирифта шудааст
+    token = '7398804616:AAHFf4AmfL73XIWEed-oue4sXmVwVaUjTGo'
+
+    updater = Updater(token, use_context=True)
+    dispatcher = updater.dispatcher
+
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(CommandHandler("help", help))
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
